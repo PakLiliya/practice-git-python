@@ -1,26 +1,33 @@
 import pygame
-from clock import Clock
+import sys
+from ball import Ball
 
 pygame.init()
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 500, 500
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Mickey Clock")
+pygame.display.set_caption("Moving Ball")
 
-mickey_clock = Clock(screen)
+ball = Ball()
 
-# Таймер обновления каждую секунду
-pygame.time.set_timer(pygame.USEREVENT, 1000)
+while True:
+    screen.fill((255, 255, 255))
 
-running = True
-while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            pygame.quit()
+            sys.exit()
 
-    screen.fill((255, 255, 255))
-    mickey_clock.update()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                ball.move(0, -20, WIDTH, HEIGHT)
+            elif event.key == pygame.K_DOWN:
+                ball.move(0, 20, WIDTH, HEIGHT)
+            elif event.key == pygame.K_LEFT:
+                ball.move(-20, 0, WIDTH, HEIGHT)
+            elif event.key == pygame.K_RIGHT:
+                ball.move(20, 0, WIDTH, HEIGHT)
+
+    ball.draw(screen)
+
     pygame.display.flip()
-    pygame.time.Clock().tick(60)
-
-pygame.quit()
