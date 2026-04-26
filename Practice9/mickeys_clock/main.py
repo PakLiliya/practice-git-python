@@ -3,11 +3,19 @@ from clock import Clock
 
 pygame.init()
 
-screen = pygame.display.set_mode((800, 600))
+# Настройки окна
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Mickey Clock")
 
-clock = pygame.time.Clock()
+# Цвет фона (на случай, если стрелки не прозрачные)
+BG_COLOR = (255, 255, 255)
+
+# Создаем часы
 mickey_clock = Clock(screen)
+
+# Таймер обновления каждую секунду
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 
 running = True
 while running:
@@ -15,11 +23,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill((255, 255, 255))
+    # Фон
+    screen.fill(BG_COLOR)
 
+    # Обновляем часы
     mickey_clock.update()
 
     pygame.display.flip()
-    clock.tick(60)
+    pygame.time.Clock().tick(60)  # 60 FPS
 
 pygame.quit()
